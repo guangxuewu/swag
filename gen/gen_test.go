@@ -32,7 +32,7 @@ func TestGen_Build(t *testing.T) {
 		if _, err := os.Stat(expectedFile); os.IsNotExist(err) {
 			t.Fatal(err)
 		}
-		os.Remove(expectedFile)
+		//os.Remove(expectedFile)
 	}
 }
 

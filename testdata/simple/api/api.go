@@ -4,6 +4,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ResponseTest struct {
+	Code      string      `json:"code"`       // 返回码
+	Message   string      `json:"message"`    // 信息
+	Status    string      `json:"status"`     // 状态
+	Data      interface{} `json:"data"`       // 数据
+	RequestID string      `json:"request_id"` // requestID
+}
+
+type Data struct {
+	TeamID string `json:"team"`  // teamID
+	EmpID  int64  `json:"empID"` // empID
+}
+
 // @Summary Add a new pet to the store
 // @Description get string by ID
 // @ID get-string-by-int
@@ -11,8 +24,7 @@ import (
 // @Produce  json
 // @Param   some_id      path   int     true  "Some ID" Format(int64)
 // @Param   some_id      body web.Pet true  "Some ID"
-// @Success 200 {string} string	"ok"
-// @Failure 400 {object} web.APIError "We need ID!!"
+// @Success 200 {object} ResponseTest
 // @Failure 404 {object} web.APIError "Can not find ID"
 // @Router /testapi/get-string-by-int/{some_id} [get]
 func GetStringByInt(c *gin.Context) {
@@ -28,7 +40,6 @@ func GetStringByInt(c *gin.Context) {
 // @Param offset query int true "Offset" Mininum(0) default(0)
 // @Param limit query int true "Limit" Maxinum(50) default(10)
 // @Param q query string true "q" Minlength(1) Maxlength(50) default("")
-// @Success 200 {string} string	"ok"
 // @Failure 400 {object} web.APIError "We need ID!!"
 // @Failure 404 {object} web.APIError "Can not find ID"
 // @Security ApiKeyAuth
