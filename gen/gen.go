@@ -80,6 +80,7 @@ func (g *Gen) Build(config *Config) error {
 	swagger := p.GetSwagger()
 	pathMap := swagger.SwaggerProps.Paths.Paths
 	//newPathMap := make(map[string]spec.PathItem)
+	baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")
 	for key, _ := range pathMap {
 		item := pathMap[key]
 		// 获取get post等path
@@ -91,10 +92,37 @@ func (g *Gen) Build(config *Config) error {
 				if ok {
 					getResp := get.OperationProps.Responses
 					if getResp == nil {
+						get.OperationProps.Responses = &spec.Responses{
+							ResponsesProps: spec.ResponsesProps{
+								StatusCodeResponses: map[int]spec.Response{
+									200: {
+										ResponseProps: spec.ResponseProps{
+											Description: "auto response",
+											Schema: &spec.Schema{
+												SchemaProps: spec.SchemaProps{
+													Ref: baseRef,
+												},
+											},
+										},
+									}},
+							},
+						}
 						continue
 					}
 					responseMap := getResp.ResponsesProps.StatusCodeResponses
+					// baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")
 					if responseMap == nil {
+						getResp.ResponsesProps.StatusCodeResponses = map[int]spec.Response{
+							200: {
+								ResponseProps: spec.ResponseProps{
+									Description: "auto response",
+									Schema: &spec.Schema{
+										SchemaProps: spec.SchemaProps{
+											Ref: baseRef,
+										},
+									},
+								},
+							}}
 						continue
 					}
 					for keyCode, valResponse := range responseMap {
@@ -107,7 +135,7 @@ func (g *Gen) Build(config *Config) error {
 							addAutoObject(swagger, urn)
 						}
 					}
-					baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")
+					// baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")
 					if _, ok := responseMap[200]; !ok {
 						responseMap[200] = spec.Response{
 							ResponseProps: spec.ResponseProps{

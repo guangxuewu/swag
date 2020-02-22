@@ -40,14 +40,6 @@ func GetStringByInt(c *gin.Context) {
 // @Param offset query int true "Offset" Mininum(0) default(0)
 // @Param limit query int true "Limit" Maxinum(50) default(10)
 // @Param q query string true "q" Minlength(1) Maxlength(50) default("")
-// @Failure 400 {object} web.APIError "We need ID!!"
-// @Failure 404 {object} web.APIError "Can not find ID"
-// @Security ApiKeyAuth
-// @Security BasicAuth
-// @Security OAuth2Application[write]
-// @Security OAuth2Implicit[read, admin]
-// @Security OAuth2AccessCode[read]
-// @Security OAuth2Password[admin]
 // @Router /testapi/get-struct-array-by-string/{some_id} [get]
 func GetStructArrayByString(c *gin.Context) {
 	//write your code
