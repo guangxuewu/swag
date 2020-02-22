@@ -123,27 +123,6 @@ func (g *Gen) Build(config *Config) error {
 				}
 			}
 		}
-		//get:=item.PathItemProps.Get
-		//if get != nil{
-		//	getResp:=get.OperationProps.Responses
-		//	if getResp == nil{
-		//		continue
-		//	}
-		//	responseMap:=getResp.ResponsesProps.StatusCodeResponses
-		//	if responseMap == nil{
-		//		continue
-		//	}
-		//	for keyr,valr:= range responseMap{
-		//		if valr.ResponseProps.Schema.SchemaProps.Type==nil{
-		//			newResponse:=responseMap[keyr]
-		//			urn:=newResponse.ResponseProps.Schema.SchemaProps.Ref.Ref.String()
-		//			baseRef, _ := spec.NewRef(urn+"Auto")
-		//			newResponse.ResponseProps.Schema.SchemaProps.Ref=baseRef
-		//			responseMap[keyr]=newResponse
-		//			addAutoObject(swagger,urn)
-		//		}
-		//	}
-		//}
 		pathMap[key] = item
 	}
 	swagger.SwaggerProps.Paths.Paths = pathMap
@@ -176,42 +155,6 @@ func (g *Gen) Build(config *Config) error {
 			},
 		},
 	}
-
-	//baseRef, _ := spec.NewRef("#/definitions/api.Data")
-	//swagger.Definitions["api.ResponseTestAuto"] = spec.Schema{
-	//	SchemaProps: spec.SchemaProps{
-	//		Type: []string{"object"},
-	//		Properties: map[string]spec.Schema{
-	//			"code": {
-	//				SchemaProps: spec.SchemaProps{
-	//					Description: "返回码",
-	//					Type:        []string{"string"},
-	//				}},
-	//			"message": {
-	//				SchemaProps: spec.SchemaProps{
-	//					Description: "返回信息",
-	//					Type:        []string{"string"},
-	//				}},
-	//			"status": {
-	//				SchemaProps: spec.SchemaProps{
-	//					Description: "返回状态",
-	//					Type:        []string{"string"},
-	//				}},
-	//			"request_id": {
-	//				SchemaProps: spec.SchemaProps{
-	//					Description: "requestID",
-	//					Type:        []string{"string"},
-	//				}},
-	//			"data": {
-	//				SchemaProps: spec.SchemaProps{
-	//					Description: "数据",
-	//					Type:        []string{"object"},
-	//					Ref: baseRef,
-	//					},
-	//				},
-	//		},
-	//	},
-	//}
 
 	b, err := g.jsonIndent(swagger)
 	if err != nil {
