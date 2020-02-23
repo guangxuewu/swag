@@ -8,7 +8,6 @@ require (
 	github.com/go-openapi/jsonreference v0.19.3
 	github.com/go-openapi/spec v0.19.4
 	github.com/satori/go.uuid v1.2.0
-	github.com/shopspring/decimal v0.0.0-20200105231215-408a2507e114 // indirect
 	github.com/stretchr/testify v1.4.0
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
