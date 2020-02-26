@@ -383,7 +383,7 @@ import (
 	"strings"
 
 	"github.com/alecthomas/template"
-	"github.com/guangxuewu/swag"
+	"github.com/swaggo/swag"
 )
 
 var doc = ` + "`{{ printDoc .Doc}}`" + `
