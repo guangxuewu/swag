@@ -133,6 +133,40 @@ func (g *Gen) Build(config *Config) error {
 							newResponse.ResponseProps.Schema.SchemaProps.Ref = baseRef
 							responseMap[keyCode] = newResponse
 							addAutoObject(swagger, urn)
+						} else {
+							oldResponse := responseMap[keyCode]
+							newResponse := spec.SchemaProps{
+								Type: []string{"object"},
+								Properties: map[string]spec.Schema{
+									"code": {
+										SchemaProps: spec.SchemaProps{
+											Description: "code",
+											Default:     "0000",
+										},
+									},
+									"message": {
+										SchemaProps: spec.SchemaProps{
+											Description: "message",
+											Default:     "操作成功",
+										},
+									},
+									"request_id": {
+										SchemaProps: spec.SchemaProps{
+											Description: "requestID",
+											Default:     "12345678901212",
+										},
+									},
+									"data": *oldResponse.ResponseProps.Schema,
+								},
+							}
+							responseMap[keyCode] = spec.Response{
+								ResponseProps: spec.ResponseProps{
+									Description: "OK",
+									Schema: &spec.Schema{
+										SchemaProps: newResponse,
+									},
+								},
+							}
 						}
 					}
 					// baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")

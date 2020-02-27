@@ -24,7 +24,7 @@ type Data struct {
 // @Produce  json
 // @Param   some_id      path   int     true  "Some ID" Format(int64)
 // @Param   some_id      body web.Pet true  "Some ID"
-// @Success 200 {object} ResponseTest
+// @Success 200 {array} Data
 // @Failure 404 {object} web.APIError "Can not find ID"
 // @Router /testapi/get-string-by-int/{some_id} [get]
 func GetStringByInt(c *gin.Context) {
