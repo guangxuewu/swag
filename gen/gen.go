@@ -79,7 +79,7 @@ func (g *Gen) Build(config *Config) error {
 	}
 	swagger := p.GetSwagger()
 	pathMap := swagger.SwaggerProps.Paths.Paths
-	//newPathMap := make(map[string]spec.PathItem)
+	idx := 1
 	baseRef, _ := spec.NewRef("#/definitions/yidAutoResponse")
 	for key, _ := range pathMap {
 		item := pathMap[key]
@@ -135,35 +135,39 @@ func (g *Gen) Build(config *Config) error {
 							addAutoObject(swagger, urn)
 						} else {
 							oldResponse := responseMap[keyCode]
-							newResponse := spec.SchemaProps{
-								Type: []string{"object"},
-								Properties: map[string]spec.Schema{
-									"code": {
-										SchemaProps: spec.SchemaProps{
-											Description: "code",
-											Default:     "0000",
-										},
-									},
-									"message": {
-										SchemaProps: spec.SchemaProps{
-											Description: "message",
-											Default:     "操作成功",
-										},
-									},
-									"request_id": {
-										SchemaProps: spec.SchemaProps{
-											Description: "requestID",
-											Default:     "12345678901212",
-										},
-									},
-									"data": *oldResponse.ResponseProps.Schema,
-								},
-							}
+							name := fmt.Sprintf("yidAutoResponse%d", idx)
+							idx++
+							autoRef, _ := spec.NewRef("#/definitions/" + name)
 							responseMap[keyCode] = spec.Response{
 								ResponseProps: spec.ResponseProps{
-									Description: "OK",
+									Description: "auto response ok",
 									Schema: &spec.Schema{
-										SchemaProps: newResponse,
+										SchemaProps: spec.SchemaProps{
+											Ref: autoRef,
+										},
+									},
+								},
+							}
+							swagger.Definitions[name] = spec.Schema{
+								SchemaProps: spec.SchemaProps{
+									Type: []string{"object"},
+									Properties: map[string]spec.Schema{
+										"code": {
+											SchemaProps: spec.SchemaProps{
+												Description: "返回码",
+												Type:        []string{"string"},
+											}},
+										"message": {
+											SchemaProps: spec.SchemaProps{
+												Description: "返回信息",
+												Type:        []string{"string"},
+											}},
+										"request_id": {
+											SchemaProps: spec.SchemaProps{
+												Description: "requestID",
+												Type:        []string{"string"},
+											}},
+										"data": *oldResponse.ResponseProps.Schema,
 									},
 								},
 							}
